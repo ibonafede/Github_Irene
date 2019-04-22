@@ -1,0 +1,31 @@
+#environments
+py27: version python 2.7
+py34: versione python 3.4
+R: version 3.4
+#activate environment
+source activate env_name
+#deactivate environment
+source deactivate
+
+
+#R environment 
+1)create a conda metapackage 
+
+conda metapackage custom-r-bundle 0.1.0 --dependencies r-irkernel jupyter r-ggplot2 r-dplyr --summary "My custom R bundle"
+
+2)share it
+register on anaconda cloud
+#username 3ni3
+#pwd 3nithree
+
+conda install anaconda-client
+anaconda login
+anaconda upload path/to/custom-r-bundle-0.1.0-0.tar.bz2
+
+#get all the packages
+conda install -c <your anaconda.org username> custom-r-bundle
+
+#python environment
+jupyter notebook
+create example
+anaconda upload example.ipynb

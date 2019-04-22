@@ -1,0 +1,43 @@
+#docker tutorial
+sudo apt install docker.io
+sudo docker info
+docker login 
+irenebonafede 
+ire@bon03
+
+#run an ubuntu image
+run -it ubuntu:16.04 /bin/bash
+exit
+#list images
+docker images
+
+#create a copy of the image
+docker tag ubuntu:16.04 irenebonafede/example
+
+#bash in the docker image. 
+#Bash in a docker image: docker run -t -i [IMAGE_NAME] bash
+run -i -t irenebonafede/ubuntu
+mkdir home/irene
+wget conda_download_address
+bash .....sh
+exit
+docker ps -a| head
+
+#commit changes of the container to the image: docker commit -m "message" [CONTAINERID] [IMAGE_NAME] 
+docker commit -m "message" [CONTAINERID] irenebonafede/ubuntu
+docker commit -m "pandas installation" 0366a0f10dab tartaglialab/antikythera
+docker push irenebonafede/ubuntu
+docker  run  -v `pwd`:`pwd` -w `pwd` -i -t  ubuntu pwd
+
+The -v flag mounts the current working directory into the container. The -w lets the command being executed inside the current working directory, by changing into the directory to the value returned by pwd. So this combination executes the command using the container, but inside the current working directory.
+
+"/c/Users/irene.bonafede2/irene:/home/irene/project" -w "/home/irene/project"
+
+cartella che monta:dove la monta nell'immagine dove scrive/si logga nell'immagine
+
+
+
+#view messages
+
+docker inspect IMAGEID
+
