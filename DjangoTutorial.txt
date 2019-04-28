@@ -1,0 +1,5 @@
+django-admin.py startproject todoapp
+cd todoapp
+
+manage.py startapp todolist
+
