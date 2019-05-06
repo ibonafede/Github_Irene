@@ -1,0 +1,120 @@
+{% extends "base/base_generic.html" %}
+
+{% block content %}
+
+{{form.errors}}
+  <div class="row">
+    <div class="col-sm-12">
+        <form id="associazione_form" action="" method="post" class="form-horizontal">
+            {% csrf_token %}
+            <div class="form-group">
+                <h3 for="nome">{{ person.nome }}  {{ person.cognome }} Skills</h3>
+                <input type="hidden" name="person_exist" class="form-control" value="{{ person_exist }}" >
+            </div>
+            {% for skill in skills %}
+              <div class="form-group">
+                    <h4 for="skill">
+                      <div class="icon-triangle arrow-right"></div>
+                      {{ skill.tipo}} - {{ skill.competenza}}
+                      <span class="livello_valore_{{ skill.id }}" >(1)</span>
+                    </h4>
+
+                    <div class="container_colapse">
+                      <br/>
+                      <input type="text" name="livello_{{ skill.id }}" class="form-control slider_livello" value="" >
+                      <br/>
+                      <input class="flagtraining_check" type="checkbox" id="flagtraining" name="flagtraining_{{ skill.id }}" value=""> Training
+                      &nbsp;&nbsp;
+                      <input class="skillevangelist_check" type="checkbox" id="skillevangelist" name="skillevangelist_{{ skill.id }}" value=""> Evangelist
+                      <br/>
+                      <br/>
+                      <label for="note">Note</label>
+                      <textarea type="textarea" rows="2" name="note_{{ skill.id }}" class="form-control" ></textarea>
+                      <br/><br/>
+                    </div>
+
+                </div>
+            {% endfor %}
+        <br/>
+        <div class="container_btn_save">
+            <button class="btn btn-primary" type="submit">Salva</button>
+        </div>
+        </form>
+      </div>
+    </div>
+        <style>
+            .container_btn_save{
+                text-align: right;
+                position: fixed;
+                top: 15%;
+                width: 1170px;
+            }
+            .arrow-down {
+              border-left: 12px solid transparent;
+              border-right: 12px solid transparent;
+              border-top: 15px solid #ccc;
+              float: left;
+              display: block;
+              cursor: pointer;
+            }
+
+            .arrow-right {
+              border-top: 12px solid transparent;
+              border-bottom: 12px solid transparent;
+              border-left: 15px solid #ccc;
+              float: left;
+              display: block;
+              cursor: pointer;
+              margin-right: 5px;
+            }
+        </style>
+
+        <script>
+
+            $(".container_colapse").hide()
+
+            $(".icon-triangle").click(function() {
+              event.preventDefault();
+              if ($(this).attr("class").trim() == "icon-triangle arrow-down") {
+                $(this).removeClass('arrow-down');
+                $(this).addClass('icon-triangle arrow-right');
+                $(this).parent("h4").siblings('div').hide();
+              }else if ($(this).attr("class").trim() == "icon-triangle arrow-right") {
+                $(this).removeClass('arrow-right');
+                $(this).addClass('icon-triangle arrow-down');
+                $(this).parent("h4").siblings('div').show();
+              }
+            });
+
+            var values =[1,2,3,4,5];
+            var values_p =["Non Applicabile","Conoscenza Marketing","Conoscenza di Base","Competente","Può Insegnare"];
+            $(".slider_livello").ionRangeSlider({
+              min: 1,
+              max: 5,
+              grid: true,
+              from: 0,
+              values:values,
+              prettify: function (n) {
+                var ind = values.indexOf(n);
+                return values_p[ind];
+              },
+            });
+
+            {% if objects %}
+                {% for obj in objects %}
+                    $(".livello_valore_{{ obj.idcompetenza_id }}").text("("+parseInt('{{ obj.livello }}')+")");
+                    $("input[name='livello_{{ obj.idcompetenza_id }}']").data("ionRangeSlider").update({from:parseInt("{{ obj.livello }}")-1});
+
+                    if("{{ obj.flagtraining }}" == "True"){
+                        $("input[name='flagtraining_{{ obj.idcompetenza_id }}']").attr("checked","checked");
+                    }
+                    if("{{ obj.skillevangelist }}" == "True"){
+                        $("input[name='skillevangelist_{{ obj.idcompetenza_id }}']").attr("checked","checked");
+                    }
+                    $("textarea[name='note_{{ obj.idcompetenza_id }}']").val("{{ obj.note }}");
+                {% endfor %}
+            {% endif %}
+
+        </script>
+
+{% endblock %}

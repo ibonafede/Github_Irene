@@ -1,3 +1,4 @@
+#https://medium.com/fbdevclagos/how-to-build-a-todo-app-with-django-17afdc4a8f8c
 django-admin.py startproject todoapp
 cd todoapp
 
