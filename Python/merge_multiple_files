@@ -1,0 +1,17 @@
+def merge(PROJECT_NAME):
+    files = os.listdir("{}/output/tmp".format(PROJECT_NAME))
+    df_cliente = pd.read_csv(CLIENT_FILENAME, sep = SEPARATOR_CLIENT_FILE, low_memory = False)
+    dfs = [df_cliente]
+    for f in files:
+        dfs.append(pd.read_csv("{}/output/tmp/{}".format(PROJECT_NAME, f), header=0))
+
+    df_finale = reduce(lambda left, right: pd.merge(left, right, on=['ID'],
+                                                    how='outer'), dfs)
+
+    return df_finale
+
+
+def run_process(process, PROJECT_NAME):
+    cmd = 'python {}'.format(process, PROJECT_NAME)
+    logging.info(cmd)
+    os.system(cmd)
