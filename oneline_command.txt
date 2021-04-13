@@ -1,0 +1,7 @@
+#add number rows
+awk '{print NR,$0}' file
+#select rows basing on value in column
+ awk '{if ($2==value) print $0}' file
+
+#count occurrences
+awk {'print $5'}  filename | uniq -c | sort -nr > output
