@@ -7,6 +7,9 @@ import datetime
 
 
 def process_song_file(cur, filepath):
+    """ - Opens song file
+        - Inserts song record to songs table
+        - Inserts artist record to artist table"""
 
     # open song file
     df = pd.read_json(filepath, lines=True)
@@ -28,10 +31,18 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    The function:
+    - opens log file
+    - filters by NextSong action
+    - converts timestamp column to datetime
+    - inserts timedata records
+    - inserts users records
+    - inserts songplay records
+    """
     # open log file
     list_log = []
     df = pd.read_json(filepath, lines=True)
-    # convert in upper case
     df.artist = df.artist.str.upper()
     df.song = df.song.str.upper()
     # filter by NextSong action
@@ -91,6 +102,12 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    - get all files matching extension from directory
+    - get total number of files found
+    - iterate over files and process
+    
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -111,6 +128,11 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    - opens connection
+    - runs process_data functions
+    - closes connection
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
